@@ -1,12 +1,24 @@
 import unittest
 from lib.deanonymizer import Deanonymizer
 from lib.anonymizer import Anonymizer
+import re
 
 
 class TestDeanonymizer(unittest.TestCase):
     def setUp(self):
         self.deanonymizer = Deanonymizer()
         self.anonymizer = Anonymizer()
+
+    def extract_info(self, text):
+        name_pattern = r"My name is ([\w\s]+),"
+        email_pattern = r"email: ([\w\.-]+@[\w\.-]+),"
+        phone_pattern = r"phone: ([\+\d\s\-]+)\."
+
+        name = re.search(name_pattern, text).group(1)
+        email = re.search(email_pattern, text).group(1)
+        phone = re.search(phone_pattern, text).group(1)
+
+        return name, email, phone
 
     def test_deanonymize(self):
         # Test with 10 different examples that include name, email, and phone numbers # noqa
@@ -46,8 +58,12 @@ class TestDeanonymizer(unittest.TestCase):
             anonymized_text, mapping = self.anonymizer.anonymize_data(example)
             deanonymized_text = self.deanonymizer.deanonymize(anonymized_text,
                                                               mapping)
-            self.assertIn('Alice Johnson', deanonymized_text)
-            self.assertIn('alice.johnson@example.com', deanonymized_text)
+
+            name, email, phone = self.extract_info(example)
+
+            self.assertIn(name, deanonymized_text)
+            self.assertIn(email, deanonymized_text)
+            self.assertIn(phone, deanonymized_text)
 
 
 if __name__ == "__main__":

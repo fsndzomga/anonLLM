@@ -10,11 +10,18 @@ class TestOpenaiLanguageModel(unittest.TestCase):
         self.llm = OpenaiLanguageModel()
 
     def test_generate(self):
-        prompt = "Tell me a joke."
+        prompt = (
+            "My name is Alice Johnson, "
+            "email: alice.johnson@example.com, "
+            "phone: +1 234-567-8910. "
+            "Write an imaginary cover letter for me "
+            "as a machine learning engineer."
+        )
         response = self.llm.generate(prompt)
 
         self.assertIsNotNone(response)
         self.assertNotEqual("", response.strip())
+        self.assertIn("Alice Johnson", response)
 
 
 if __name__ == "__main__":

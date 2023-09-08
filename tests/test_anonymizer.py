@@ -1,11 +1,23 @@
 import unittest
 from lib.anonymizer import Anonymizer
+import re
 
 
 class TestAnonymizer(unittest.TestCase):
 
     def setUp(self):
         self.anonymizer = Anonymizer()
+
+    def extract_info(self, text):
+        name_pattern = r"My name is ([\w\s]+),"
+        email_pattern = r"email: ([\w\.-]+@[\w\.-]+),"
+        phone_pattern = r"phone: ([\+\d\s\-]+)\."
+
+        name = re.search(name_pattern, text).group(1)
+        email = re.search(email_pattern, text).group(1)
+        phone = re.search(phone_pattern, text).group(1)
+
+        return name, email, phone
 
     def test_anonymize_data(self):
         # Test with 10 different examples that include name, email, and phone numbers # noqa
@@ -42,9 +54,13 @@ class TestAnonymizer(unittest.TestCase):
         ]
 
         for example in test_examples:
-            anonymized_text, mapping = self.anonymizer.anonymize_data(example)
-            self.assertNotIn('Alice Johnson', anonymized_text)
-            self.assertNotIn('alice.johnson@example.com', anonymized_text)
+            anonymized_text, _ = self.anonymizer.anonymize_data(example)
+
+            name, email, phone = self.extract_info(example)
+
+            self.assertNotIn(name, anonymized_text)
+            self.assertNotIn(email, anonymized_text)
+            self.assertNotIn(phone, anonymized_text)
 
 
 if __name__ == "__main__":
