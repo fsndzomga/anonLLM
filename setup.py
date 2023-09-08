@@ -21,8 +21,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    packages=find_packages(where="lib"),
-    package_dir={"anonLLM": "lib"},
+    packages=find_packages(),
     python_requires=">=3.6",
     install_requires=[
         "aiohttp>=3.8,<3.9",

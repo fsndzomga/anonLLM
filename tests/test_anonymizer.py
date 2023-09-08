@@ -1,5 +1,5 @@
 import unittest
-from lib.anonymizer import Anonymizer
+from anonLLM.anonymizer import Anonymizer
 import re
 
 

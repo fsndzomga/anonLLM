@@ -1,6 +1,6 @@
 import unittest
-from lib.deanonymizer import Deanonymizer
-from lib.anonymizer import Anonymizer
+from anonLLM.deanonymizer import Deanonymizer
+from anonLLM.anonymizer import Anonymizer
 import re
 
 

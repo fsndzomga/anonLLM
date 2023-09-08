@@ -4,8 +4,8 @@ import json
 from pydantic import BaseModel, ValidationError, ConfigDict
 from typing import Type, Optional
 import os
-from lib.anonymizer import Anonymizer
-from lib.deanonymizer import Deanonymizer
+from anonLLM.anonymizer import Anonymizer
+from anonLLM.deanonymizer import Deanonymizer
 
 
 class OpenaiLanguageModel:

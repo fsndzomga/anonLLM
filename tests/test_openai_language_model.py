@@ -1,5 +1,5 @@
 import unittest
-from lib.llm import OpenaiLanguageModel
+from anonLLM.llm import OpenaiLanguageModel
 from dotenv import load_dotenv
 
 load_dotenv()
