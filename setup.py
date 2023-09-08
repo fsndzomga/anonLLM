@@ -37,7 +37,7 @@ setup(
         "click>=8.1,<8.2",
         "confection>=0.1,<0.2",
         "cymem>=2.0,<2.1",
-        "en-core-web-sm>=3.6,<3.7",
+        "en-core-web-sm=3.6.0",
         "Faker>=19.5,<20.0",
         "frozenlist>=1.4,<1.5",
         "idna>=3.4,<3.5",
