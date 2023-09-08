@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Distribution / packaging
+.Python
+dist/
+build/
+*.egg-info/
+
+# Virtual environment
+venv/
+*.venv
+.venv/
+
+# Environment variables
+.env
+
+# PyCharm and Visual Studio Code directories
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
