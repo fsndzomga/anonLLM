@@ -17,6 +17,7 @@ To install anonLLM, run:
 
 ```bash
 pip install anonLLM
+```
 
 # Quick Start
 
@@ -24,6 +25,7 @@ Here's how to get started with anonLLM:
 
 ```python
 from anonLLM import OpenaiLanguageModel
+```python
 
 ## Anonymize a text
 text = "My name is Alice Johnson, email: alice.johnson@example.com, phone: +1 234-567-8910."
