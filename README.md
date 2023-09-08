@@ -24,18 +24,25 @@ pip install anonLLM
 Here's how to get started with anonLLM:
 
 ```python
-from anonLLM import OpenaiLanguageModel
+from anonLLM.llm import OpenaiLanguageModel
+from dotenv import load_dotenv
 
+load_dotenv()
 
-## Anonymize a text
-text = "My name is Alice Johnson, email: alice.johnson@example.com, phone: +1 234-567-8910."
+# Anonymize a text
+text = "Write a CV for me: My name is Alice Johnson, "\
+    "email: alice.johnson@example.com, phone: +1 234-567-8910."\
+    "I am a machine learning engineer."
 
-## Anonymization is handled under the hood
-llm = OpenaiLanguageModel(api_key="your_openai_api_key_here")
+# Anonymization is handled under the hood
+llm = OpenaiLanguageModel()
+
 response = llm.generate(text)
 
 print(response)
 ```
+In this example, the response will contain the correct name provided.
+At the same time, no PII will be sent to OpenAI.
 
 # Contributing
 
