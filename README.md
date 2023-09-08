@@ -1,4 +1,4 @@
-# anonLLM: Anonymize Personally Identifiable Information (PII) for Language Model APIs
+# anonLLM: Anonymize Personally Identifiable Information (PII) for Large Language Model APIs
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
