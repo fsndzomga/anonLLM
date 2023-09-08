@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="anonLLM",
-    version="0.1.2",
+    version="0.1.3",
     author="FS Ndzomga",
     author_email="ndzomgafs@gmail.com",
     description="Anonymizes personally identifiable information for "
@@ -22,7 +22,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     packages=find_packages(where="lib"),
-    package_dir={"": "lib"},
+    package_dir={"anonLLM": "lib"},
     python_requires=">=3.6",
     install_requires=[
         "aiohttp>=3.8,<3.9",
