@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="anonLLM",
-    version="0.1.3",
+    version="0.1.5",
     author="FS Ndzomga",
     author_email="ndzomgafs@gmail.com",
     description="Anonymizes personally identifiable information for "
