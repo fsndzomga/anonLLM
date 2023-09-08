@@ -15,13 +15,14 @@ Installation
 
 To install anonLLM, run:
 
-python
+```bash
 pip install anonLLM
 
 # Quick Start
 
 Here's how to get started with anonLLM:
 
+```python
 from anonLLM import OpenaiLanguageModel
 
 ## Anonymize a text
