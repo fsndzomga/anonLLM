@@ -22,7 +22,7 @@ class TestAnonymizer(unittest.TestCase):
     def test_anonymize_data(self):
         # Test with 10 different examples that include name, email, and phone numbers # noqa
         test_examples = [
-            "My name is Alice Johnson, email: alice.johnson@example.com, "
+            "My name is Alice Ela Johnson, email: alice.johnson@example.com, "
             "phone: +1 234-567-8910.",
 
             "My name is Bob Smith, email: bob_smith@example.com, "
