@@ -9,9 +9,12 @@ from anonLLM.deanonymizer import Deanonymizer
 
 
 class OpenaiLanguageModel:
-    def __init__(self, api_key=None, model="gpt-3.5-turbo", temperature=0.5):
-        self.anonymizer = Anonymizer()
-        self.deanonymizer = Deanonymizer()
+    def __init__(self, api_key=None, model="gpt-3.5-turbo", temperature=0.5, anonymize=True):
+        self.anonymize = anonymize
+
+        if self.anonymize:
+            self.anonymizer = Anonymizer()
+            self.deanonymizer = Deanonymizer()
 
         if api_key is None:
             api_key = os.environ.get('OPENAI_API_KEY')
@@ -27,7 +30,9 @@ class OpenaiLanguageModel:
 
     def generate(self, prompt: str, output_format: Optional[BaseModel] = None,
                  n_completions: int = 1, max_tokens: int = None):
-        anonymized_prompt, mappings = self.anonymizer.anonymize_data(prompt)
+        anonymized_prompt, mappings = (self.anonymizer.anonymize_data(prompt)
+                                       if self.anonymize else (prompt, None))
+
         retry_delay = 0.1
         valid_responses = []
 
@@ -78,11 +83,12 @@ class OpenaiLanguageModel:
                 break
 
         if n_completions == 1:
-            deanonymized_response = self.deanonymizer.deanonymize(
-                valid_responses[0], mappings)
+            deanonymized_response = (self.deanonymizer.deanonymize(valid_responses[0], mappings)
+                                     if self.anonymize else valid_responses[0])
             return deanonymized_response
 
-        deanonymized_responses = [self.deanonymizer.deanonymize(res, mappings)
+        deanonymized_responses = [(self.deanonymizer.deanonymize(res, mappings)
+                                  if self.anonymize else res)
                                   for res in valid_responses[:n_completions]]
         return deanonymized_responses
 
