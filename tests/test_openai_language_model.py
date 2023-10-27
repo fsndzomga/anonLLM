@@ -31,11 +31,35 @@ class TestOpenaiLanguageModel(unittest.TestCase):
             person: str
             city: str
 
-        prompt = 'Extract the requested  information from the following sentence: "John Hanson is visiting Rome."'
+        prompt = 'Extract the requested  information from the following sentence: "Alice Johnson is visiting Rome."'
         response = self.llm.generate(prompt, output_format=Output)
         self.assertTrue(isinstance(response, Output))
-        self.assertIn("John Hanson", response.person)
+        self.assertIn("Alice Johnson", response.person)
         self.assertIn("Rome", response.city)
+
+    def test_generate_n_completions(self):
+        prompt = (
+            "What is the user's favorite color in the following expression?"
+            "\nAlice Johnson's favorite color is blue"
+        )
+        responses = self.llm.generate(prompt, n_completions=2)
+        self.assertEqual(len(responses), 2)
+        for response in responses:
+            self.assertIsNotNone(response)
+            self.assertIn("blue", response.lower())
+
+    def test_generate_n_completions_with_model_output(self):
+        class Output(BaseModel):
+            person: str
+            city: str
+
+        prompt = 'Extract the requested  information from the following sentence: "Alice Johnson is visiting Rome."'
+        responses = self.llm.generate(prompt, output_format=Output, n_completions=2)
+        self.assertEqual(len(responses), 2)
+        for response in responses:
+            self.assertTrue(isinstance(response, Output))
+            self.assertIn("Alice Johnson", response.person)
+            self.assertIn("Rome", response.city)
 
 
 
