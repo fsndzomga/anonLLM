@@ -28,7 +28,7 @@ class OpenaiLanguageModel:
         self.temperature = temperature
         openai.api_key = self.api_key
 
-    def generate(self, prompt: str, output_format: Optional[BaseModel] = None,
+    def generate(self, prompt: str, output_format: Optional[Type[BaseModel]] = None,
                  n_completions: int = 1, max_tokens: int = None):
         anonymized_prompt, mappings = (self.anonymizer.anonymize_data(prompt)
                                        if self.anonymize else (prompt, None))
