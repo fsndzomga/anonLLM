@@ -1,4 +1,7 @@
 import unittest
+
+from pydantic import BaseModel
+
 from anonLLM.llm import OpenaiLanguageModel
 from dotenv import load_dotenv
 
@@ -22,6 +25,18 @@ class TestOpenaiLanguageModel(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertNotEqual("", response.strip())
         self.assertIn("Alice Johnson", response)
+
+    def test_generate_with_model_output(self):
+        class Output(BaseModel):
+            person: str
+            city: str
+
+        prompt = 'Extract the requested  information from the following sentence: "John Hanson is visiting Rome."'
+        response = self.llm.generate(prompt, output_format=Output)
+        self.assertTrue(isinstance(response, Output))
+        self.assertIn("John Hanson", response.person)
+        self.assertIn("Rome", response.city)
+
 
 
 if __name__ == "__main__":
