@@ -28,7 +28,7 @@ class OpenaiLanguageModel:
         self.temperature = temperature
         openai.api_key = self.api_key
 
-    def generate(self, prompt: str, output_format: Optional[BaseModel] = None,
+    def generate(self, prompt: str, output_format: Optional[Type[BaseModel]] = None,
                  n_completions: int = 1, max_tokens: int = None):
         anonymized_prompt, mappings = (self.anonymizer.anonymize_data(prompt)
                                        if self.anonymize else (prompt, None))
@@ -82,14 +82,20 @@ class OpenaiLanguageModel:
                 print(f"Error: {err}")
                 break
 
-        if n_completions == 1:
-            deanonymized_response = (self.deanonymizer.deanonymize(valid_responses[0], mappings)
-                                     if self.anonymize else valid_responses[0])
-            return deanonymized_response
+        def _deanonymize(response):
+            if output_format:
+                for key, value in response.items():
+                    response[key] = self.deanonymizer.deanonymize(value, mappings)
+                return output_format.model_validate(response)
+            else:
+                return self.deanonymizer.deanonymize(response, mappings)
 
-        deanonymized_responses = [(self.deanonymizer.deanonymize(res, mappings)
-                                  if self.anonymize else res)
-                                  for res in valid_responses[:n_completions]]
+        deanonymized_responses = [_deanonymize(res) if self.anonymize else res
+                                  for res in valid_responses]
+
+        if n_completions == 1:
+            # if generating a single completion, return it directly
+            return deanonymized_responses[0]
         return deanonymized_responses
 
     def _model_structure_repr(self, model: Type[BaseModel]) -> str:
