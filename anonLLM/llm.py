@@ -64,8 +64,8 @@ class OpenaiLanguageModel:
                     params["max_tokens"] = max_tokens
 
                 response = self.client.chat.completions.create(**params)
-                choices = response["choices"]
-                responses = [choice["message"]["content"]
+                choices = response.choices
+                responses = [choice.message.content
                              for choice in choices]
 
                 if output_format:
