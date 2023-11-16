@@ -1,4 +1,5 @@
 import openai
+from openai import OpenAI
 import time
 import json
 from pydantic import BaseModel, ValidationError, ConfigDict
@@ -26,7 +27,8 @@ class OpenaiLanguageModel:
         self.api_key = api_key
         self.model = model
         self.temperature = temperature
-        openai.api_key = self.api_key
+        self.client = OpenAI(api_key=self.api_key)
+
 
     def generate(self, prompt: str, output_format: Optional[Type[BaseModel]] = None,
                  n_completions: int = 1, max_tokens: int = None):
@@ -61,7 +63,7 @@ class OpenaiLanguageModel:
                 if max_tokens is not None:
                     params["max_tokens"] = max_tokens
 
-                response = openai.ChatCompletion.create(**params)
+                response = self.client.chat.completions.create(**params)
                 choices = response["choices"]
                 responses = [choice["message"]["content"]
                              for choice in choices]
@@ -74,7 +76,7 @@ class OpenaiLanguageModel:
                 else:
                     valid_responses.extend(responses)
 
-            except openai.error.RateLimitError:
+            except openai.RateLimitError:
                 print(f"Hit rate limit. Retrying in {retry_delay} seconds.")
                 time.sleep(retry_delay)
                 retry_delay *= 2
