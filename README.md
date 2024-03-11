@@ -44,6 +44,39 @@ print(response)
 In this example, the response will contain the correct name provided.
 At the same time, no PII will be sent to OpenAI.
 
+You can also use anonLLM to generate structured outputs in a JSON format.
+You just have to define a pydantic model for your output, and use the output_format argument like this:
+
+```python
+from pydantic import BaseModel
+from anonLLM.llm import OpenaiLanguageModel
+from dotenv import load_dotenv
+
+load_dotenv()
+
+llm = OpenaiLanguageModel(anonymize=False, temperature=1)
+
+
+class Person(BaseModel):
+    name: str
+    sex: str
+    age: int
+    email: str
+
+
+response = llm.generate(
+    prompt="Generate a person",
+    output_format=Person
+)
+
+print(response)
+
+# Returns: {'name': 'Alex', 'sex': 'Male', 'age': 32, 'email': 'alex@example.com'}
+
+```
+
+
+
 # Contributing
 
 We welcome contributions!
