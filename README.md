@@ -84,3 +84,8 @@ We welcome contributions!
 # License
 
 This project is licensed under the MIT License.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=fsndzomga/anonLLM&type=Date)](https://star-history.com/#fsndzomga/anonLLM&Date)
+
